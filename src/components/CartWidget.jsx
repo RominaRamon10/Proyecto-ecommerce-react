@@ -1,13 +1,3 @@
-// const CartWidget = () => {
-//   return (
-//     <div>
-//       🛒 0
-//     </div>
-//   );
-// };
-
-// export default CartWidget;
-
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const CartWidget = () => {
