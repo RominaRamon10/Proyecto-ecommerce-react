@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "title": "Remera Negra",
+    "description": "Remera de algodón 100%",
+    "price": 1200,
+    "stock": 10,
+    "category": "remeras",
+    "image": "https://via.placeholder.com/300"
+  },
+  {
+    "id": "2",
+    "title": "Remera Blanca",
+    "description": "Remera lisa clásica",
+    "price": 1200,
+    "stock": 3,
+    "category": "remeras",
+    "image": "https://via.placeholder.com/300"
+  },
+  {
+    "id": "3",
+    "title": "Pantalón Jeans",
+    "description": "Jean azul corte recto",
+    "price": 1900,
+    "stock": 8,
+    "category": "pantalones",
+    "image": "https://via.placeholder.com/300"
+  },
+  {
+    "id": "4",
+    "title": "Zapatillas Urbanas",
+    "description": "Zapatillas cómodas para uso diario",
+    "price": 3590,
+    "stock": 5,
+    "category": "zapatillas",
+    "image": "https://via.placeholder.com/300"
+  }
+]
