@@ -19,4 +19,17 @@ const getProducts = (categoryId) => {
     });
 };
 
-export const products = { getProducts };
+const getProductById = (id) => {
+    return new Promise((resolve, reject) => {
+        const operaciónExitosa = true;
+        setTimeout(() => {
+            if(operaciónExitosa){
+                resolve({success: true, data: (productos.find(prod => prod.id === id))})
+            } else{
+                reject({success: false, message: "Error al obtener el producto"})
+            }
+        }, 800);
+    })
+};
+
+export const products = { getProducts, getProductById };
