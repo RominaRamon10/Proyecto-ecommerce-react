@@ -6,6 +6,7 @@
     "price": 1200,
     "stock": 10,
     "category": "remeras",
+    "categoryId": "1",
     "image": "https://via.placeholder.com/300"
   },
   {
@@ -15,6 +16,7 @@
     "price": 1200,
     "stock": 3,
     "category": "remeras",
+    "categoryId": "1",
     "image": "https://via.placeholder.com/300"
   },
   {
@@ -24,6 +26,7 @@
     "price": 1900,
     "stock": 8,
     "category": "pantalones",
+    "categoryId": "2",
     "image": "https://via.placeholder.com/300"
   },
   {
@@ -33,6 +36,7 @@
     "price": 3590,
     "stock": 5,
     "category": "zapatillas",
+    "categoryId": "3",
     "image": "https://via.placeholder.com/300"
   }
 ]
