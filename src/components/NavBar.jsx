@@ -31,7 +31,7 @@ const NavBar = () => {
       <div className="offcanvas offcanvas-end" id="menuCategorias">
         <div className="offcanvas-header">
           <h5>Categorías</h5>
-          <button className="btn-close" onClick={closeOffcanvas}></button>
+          <button className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
 
         <div className="offcanvas-body">
@@ -61,6 +61,33 @@ const NavBar = () => {
                 onClick={closeOffcanvas}
               >
                 Zapatillas
+              </NavLink>
+            </li>
+
+            <li className="list-group-item">
+              <NavLink
+                to="/category/4"
+                onClick={closeOffcanvas}
+              >
+                Buzos
+              </NavLink>
+            </li>
+
+            <li className="list-group-item">
+              <NavLink
+                to="/category/5"
+                onClick={closeOffcanvas}
+              >
+                Vestidos
+              </NavLink>
+            </li>
+
+            <li className="list-group-item">
+              <NavLink
+                to="/category/6"
+                onClick={closeOffcanvas}
+              >
+                Camperas
               </NavLink>
             </li>
 
