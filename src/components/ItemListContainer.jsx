@@ -6,6 +6,7 @@ import ItemList from "./ItemList";
 const ItemListContainer = () => {
   const [items, setItems] = useState([]);
   const { categoryId } = useParams();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const promiseProduct = categoryId
@@ -17,11 +18,16 @@ const ItemListContainer = () => {
         if (response.success) setItems(response.data);
       })
       .catch(error => console.log(error))
+      .finally(()=> setLoading(false));
 
   }, [categoryId]);
 
-  if (items.length === 0) {
+  if (loading) {
     return <h3>Cargando productos...</h3>;
+  }
+
+  if (items.length === 0) {
+    return <h3>No hay productos en esta categoría</h3>;
   }
 
   return (

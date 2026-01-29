@@ -18,18 +18,23 @@ const getProducts = () => {
 const getProductsByCategory = (categoryId) => {
     return new Promise((resolve, reject) => {
         const operaciónExitosa = true; // Simulación de éxito o fracaso
+
         setTimeout(() => {
-            if (categoryId) {
-                if (operaciónExitosa) {
-                    resolve({
-                        success: true,
-                        data: productos.filter((prod) => String(prod.category) === String(categoryId)),
-                    });
-                } else {
-                    reject({ success: false, message: "Error al obtener los productos" });
-                }
+            if(!categoryId){
+                resolve({success: true, data: []});
+                return;
             }
-        }, 500);
+
+            if(operaciónExitosa){
+                resolve({success: true,
+                        data: productos.filter(
+                            (prod) => String(prod.categoryId) === String(categoryId)
+                        )
+                });
+            } else {
+                reject({success: false, message: "Error al obtener los productos"});
+            }
+        }, 500);    
     });
 };
 
