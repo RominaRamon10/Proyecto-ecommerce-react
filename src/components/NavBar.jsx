@@ -2,44 +2,72 @@ import { NavLink, Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
 
 const NavBar = () => {
+
+  const closeOffcanvas = () => {
+    const offcanvas = document.getElementById("menuCategorias");
+    const bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvas);
+    bsOffcanvas?.hide();
+  };
+
   return (
 
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid px-4">
-  
-      <Link className="navbar-brand" to="/">Rofux</Link>
+    <nav className="navbar navbar-dark bg-dark px-4 d-flex justify-content-between">
 
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item">
-          <NavLink to="/category/1">Remeras</NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to="/category/2">Pantalones</NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to="/category/3">Zapatillas</NavLink>
-        </li>        
-      </ul>
+      <Link className="navbar-brand" to="/">
+        Rofux
+      </Link>
+
       <CartWidget />
 
-    </nav>
-/*     <nav className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid px-4">   
-        <a className="navbar-brand" href="#">
-            Rofux
-        </a>
+      <button
+        className="btn btn-outline-light"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#menuCategorias"
+      >
+        Menú
+      </button>
 
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-            <a className="nav-link" href="#">Remeras</a>
+      <div className="offcanvas offcanvas-end" id="menuCategorias">
+        <div className="offcanvas-header">
+          <h5>Categorías</h5>
+          <button className="btn-close" onClick={closeOffcanvas}></button>
+        </div>
+
+        <div className="offcanvas-body">
+          <ul className="list-group">
+
+            <li className="list-group-item">
+              <NavLink
+                to="/category/1"
+                onClick={closeOffcanvas}
+              >
+                Remeras
+              </NavLink>
             </li>
-            <li className="nav-item">
-            <a className="nav-link" href="#">Pantalones</a>
+
+            <li className="list-group-item">
+              <NavLink
+                to="/category/2"
+                onClick={closeOffcanvas}
+              >
+                Pantalones
+              </NavLink>
             </li>
-            <li className="nav-item">
-            <a className="nav-link" href="#">Bolsos</a>
+
+            <li className="list-group-item">
+              <NavLink
+                to="/category/3"
+                onClick={closeOffcanvas}
+              >
+                Zapatillas
+              </NavLink>
             </li>
-        </ul>
-        <CartWidget />
-    </nav> */
+
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 };
 

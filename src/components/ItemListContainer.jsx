@@ -19,7 +19,6 @@ const ItemListContainer = () => {
       })
       .catch(error => console.log(error))
       .finally(()=> setLoading(false));
-
   }, [categoryId]);
 
   if (loading) {
@@ -32,7 +31,7 @@ const ItemListContainer = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Catálogo</h2>
+      <h2>Catálogo de productos</h2>
       <ItemList items={items} />
     </div>
   );

@@ -27,13 +27,15 @@ const getProductsByCategory = (categoryId) => {
 
             if(operaciónExitosa){
                 resolve({success: true,
-                        data: productos.filter(
-                            (prod) => String(prod.categoryId) === String(categoryId)
-                        )
+                    data: productos.filter(
+                        (prod) => String(prod.categoryId) === String(categoryId)
+                    )
                 });
+                console.log("categorias productos:", productos.map(p => p.category));
             } else {
                 reject({success: false, message: "Error al obtener los productos"});
             }
+            
         }, 500);    
     });
 };
