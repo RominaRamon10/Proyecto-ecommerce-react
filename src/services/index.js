@@ -1,3 +1,3 @@
-import { mocks } from "./mocks"
+import { mocks } from "./mocks";
 
-export const services = { mocks };
+export const services = {mocks};
