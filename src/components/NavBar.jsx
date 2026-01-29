@@ -1,13 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
 
 const NavBar = () => {
   return (
 
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid px-4">
-      <a className="navbar-brand" href="/">
-        Rofux
-      </a>
+  
+      <Link className="navbar-brand" to="/">Rofux</Link>
 
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">

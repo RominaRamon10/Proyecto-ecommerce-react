@@ -6,18 +6,26 @@ import ItemList from "./ItemList";
 const ItemListContainer = () => {
   const [items, setItems] = useState([]);
   const { categoryId } = useParams();
-  
-  //ver si funciona
+
   useEffect(() => {
-    services.mocks.products.getProductsByCategory(categoryId)
+    const promiseProduct = categoryId
+    ? services.mocks.products.getProductsByCategory(categoryId)
+    : services.mocks.products.getProducts();
+
+    promiseProduct
       .then((response) => {
-        if(response.success) setItems(response.data);
+        if (response.success) setItems(response.data);
       })
       .catch(error => console.log(error))
-  },[categoryId])
+
+  }, [categoryId]);
+
+  if (items.length === 0) {
+    return <h3>Cargando productos...</h3>;
+  }
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2>Catálogo</h2>
       <ItemList items={items} />
     </div>

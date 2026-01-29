@@ -10,7 +10,7 @@ const getProducts = () => {
             } else {
                 reject({ success: false, message: "Error al obtener los productos" });
             }
-        }, 800);
+        }, 500);
     });
 };
 
@@ -23,13 +23,13 @@ const getProductsByCategory = (categoryId) => {
                 if (operaciónExitosa) {
                     resolve({
                         success: true,
-                        data: productos.filter((prod) => prod.category === categoryId),
+                        data: productos.filter((prod) => String(prod.category) === String(categoryId)),
                     });
                 } else {
                     reject({ success: false, message: "Error al obtener los productos" });
                 }
             }
-        }, 800);
+        }, 500);
     });
 };
 
@@ -46,7 +46,7 @@ const getProductById = (id) => {
             } else {
                 reject({ success: false, message: "Error al obtener el producto" });
             }
-        }, 800);
+        }, 500);
     });
 };
 
