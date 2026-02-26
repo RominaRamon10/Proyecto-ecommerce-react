@@ -9,7 +9,8 @@ const ItemDetailContainer = () => {
     const {id} = useParams();
 
     useEffect(() => {
-        services.mocks.products.getProductById(id)
+        services.firestore.products.getProductById(id)
+        //services.mocks.products.getProductById(id)
             .then((response) => {
                 if(response.success) setItems(response.data);
 

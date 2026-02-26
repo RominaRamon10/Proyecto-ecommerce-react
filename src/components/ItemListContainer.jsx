@@ -9,9 +9,14 @@ const ItemListContainer = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    //const promiseProduct = categoryId
+    //? services.mocks.products.getProductsByCategory(categoryId)
+    //: services.mocks.products.getProducts();
+
     const promiseProduct = categoryId
-    ? services.mocks.products.getProductsByCategory(categoryId)
-    : services.mocks.products.getProducts();
+    ? services.firestore.products.getProductsByCategory(categoryId)
+    : services.firestore.products.getProducts();
+
 
     promiseProduct
       .then((response) => {
