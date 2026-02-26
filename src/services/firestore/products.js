@@ -1,11 +1,11 @@
 import { firestore } from '../../utils/firebase';
-import { addDoc, getDoc, getDocs, collection} from 'firebase/firestore'; //importo las funciones de firestore para crear documentos, colecciones ej: addDoc
+import { addDoc, doc, getDoc, getDocs, collection, query, where} from 'firebase/firestore'; //importo las funciones de firestore para crear documentos, colecciones ej: addDoc
 
 //agregar productos
 const addProduct = async (data) => {
     try {
         const docRef = await addDoc(collection(firestore, "productos"),data);
-        return {success: true};
+        return {success: true, docRef};
 
     } catch (error) {
         return { success: false, error}
@@ -33,29 +33,51 @@ const getProducts = async () => {
 
 //obtener productos por categoria
 const getProductsByCategory = async (categoryId) => {
-  
+
     try {
-        const querySnapshot = await getDocs(collection(firestore,"productos"), categoryId)
-        
+        const productsRef = collection(firestore, "productos");
+
+        const q = query(
+        productsRef,
+        where("categoryId", "==", categoryId)
+        );
+
+        const querySnapshot = await getDocs(q);
+
         const productos = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }))
+        id: doc.id,
+        ...doc.data()
+        }));
+
         return { success: true, data: productos };
 
     } catch (error) {
-        return { success: false, error}
+        return { success: false, error };
     }
+    
 };
 
 //obtener producto por id
 const getProductById = async (id) => {
+
     try {
-        const docRef = await getDoc(collection(firestore, "productos"),id);
-        if(!docRef.exists()) return {success: false, error: "Producto no encontrado"};
-        return { success: true, data: docRef };
+        const productRef = doc(firestore, "productos", id);
+        const snapshot = await getDoc(productRef);
+
+        if (!snapshot.exists()) {
+        return { success: false, error: "Producto no encontrado" };
+        }
+
+        return {
+        success: true,
+        data: {
+            id: snapshot.id,
+            ...snapshot.data()
+        }
+        };
+
     } catch (error) {
-        return {success: false, error};
+        return { success: false, error };
     }
 
 };

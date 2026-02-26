@@ -5,14 +5,14 @@ import { services } from "../services";
 import ItemDetail from "./ItemDetail";
 
 const ItemDetailContainer = () => {
-    const [item, setItems] = useState(null);
+    const [item, setItem] = useState(null);
     const {id} = useParams();
 
     useEffect(() => {
         services.firestore.products.getProductById(id)
         //services.mocks.products.getProductById(id)
             .then((response) => {
-                if(response.success) setItems(response.data);
+                if(response.success) setItem(response.data);
 
             })
             .catch(error => console.log(error))
