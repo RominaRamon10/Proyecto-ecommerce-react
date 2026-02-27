@@ -42,13 +42,12 @@ const CheckoutForm = () => {
 
     //Enviar la orden a Firebase
     const handleSubmit = async () => {
-        // 1. Validar formulario
+
         if (!validarFormulario()) return
 
         setLoading(true)
         setError(null)
 
-        // 2. Armar el objeto de la orden
         const orden = {
             comprador: {
                 nombre: form.nombre,
@@ -67,12 +66,12 @@ const CheckoutForm = () => {
             estado: "pendiente"
         }
 
-        // 3. Guardar en Firebase
-        const response = await services.firestore.products.createOrder(orden);
+        const orderResponse = await services.firestore.products.createOrder(orden);
 
-        if (response.success) {
-            setOrderId(response.orderId)  // guardo el id para mostrárselo al usuario
-            clearCart()                   // vacío el carrito
+        if (orderResponse.success) {
+            await services.firestore.products.updateStock(cart) //actualizo el stock en firebase
+            setOrderId(orderResponse.orderId)  //guardo el id para mostrárselo al usuario
+            clearCart()                   //vacío el carrito
         } else {
             setError("Hubo un error al procesar la compra. Intentá de nuevo.")
         }
