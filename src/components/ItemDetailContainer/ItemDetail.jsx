@@ -1,14 +1,15 @@
 import ItemCount from "./ItemCount";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../Context/CartContext";
 
 const ItemDetail = ({item}) => {
     //para controlar que mostrar
     const [agregado, setAgregado] = useState(false);
+    const {addItem} = useCart();
 
     const handleAdd = (cantidad) => {
-        console.log(`Agregando ${cantidad} unidades de ${item.title}`)
-        // acá después vas a llamar al contexto del carrito
+        addItem(item, cantidad);
         setAgregado(true);
     }
 
