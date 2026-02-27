@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useContext } from "react"
+import { createContext, useState, useContext, useEffect } from "react"
 
 // Creo el contexto
 export const CartContext = createContext();
@@ -9,7 +9,22 @@ export const useCart = () => useContext(CartContext);
 
 //Creo el Provider que envuelve toda la app
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState([])
+    //const [cart, setCart] = useState([])
+////////////////////////
+    const [cart, setCart] = useState(() => {
+        try {
+            const cartGuardado = localStorage.getItem("cart")
+            return cartGuardado ? JSON.parse(cartGuardado) : []
+        } catch {
+            return []
+        }
+    })
+
+    // Cada vez que el carrito cambia, lo guarda en localStorage
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(cart))
+    }, [cart])  // ← se ejecuta cada vez que cart cambia
+
 
     // Agregar producto al carrito
     const addItem = (item, quantity) => {
