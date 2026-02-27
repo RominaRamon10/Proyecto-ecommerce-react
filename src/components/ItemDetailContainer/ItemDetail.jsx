@@ -19,7 +19,7 @@ const ItemDetail = ({item}) => {
             <img src={item.image} alt={item.title} />
             <p>{item.description}</p>
             <p>${item.price}</p>
-            <p>Stock disponible: {item.stock}</p>
+            {/* <p>Stock disponible: {item.stock}</p> */}
 
             {/* Renderizado condicional*/}
             {
