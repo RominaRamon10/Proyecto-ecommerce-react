@@ -1,5 +1,5 @@
 import { firestore } from '../../utils/firebase';
-import { addDoc, doc, getDoc, getDocs, collection, query, where} from 'firebase/firestore'; //importo las funciones de firestore para crear documentos, colecciones ej: addDoc
+import { addDoc, doc, getDoc, getDocs, collection, query, where, serverTimestamp} from 'firebase/firestore'; //importo las funciones de firestore para crear documentos, colecciones ej: addDoc
 
 //agregar productos
 const addProduct = async (data) => {
@@ -83,4 +83,17 @@ const getProductById = async (id) => {
 
 };
 
-export const products = { getProducts, addProduct, getProductsByCategory, getProductById };
+const createOrder = async (orderData) => {
+    try {
+        const orderRef = collection(firestore, "ordenes")
+        const docRef = await addDoc(orderRef, {
+            ...orderData,
+            date: serverTimestamp()
+        })
+        return {success: true, orderId: docRef.id }
+    } catch (error) {
+        return { success: false, error }
+    }
+}
+
+export const products = { getProducts, addProduct, getProductsByCategory, getProductById, createOrder };
