@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { services } from "../services";
+import { services } from "../../services";
 import ItemDetail from "./ItemDetail";
 
 const ItemDetailContainer = () => {
@@ -9,9 +9,12 @@ const ItemDetailContainer = () => {
     const {id} = useParams();
 
     useEffect(() => {
+        console.log("ID que recibo de la URL:", id)
         services.firestore.products.getProductById(id)
         //services.mocks.products.getProductById(id)
             .then((response) => {
+                console.log("Respuesta de Firebase:", response);
+                //Cuando obtengo los datos de la llamada a firestore, seteo item
                 if(response.success) setItem(response.data);
 
             })

@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom';
+//Importo el provider
+import { CartProvider } from './components/Context/CartContext.jsx'
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -14,6 +16,8 @@ import 'primeicons/primeicons.css'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <App />
+    <CartProvider> 
+      <App />
+    </CartProvider>
   </BrowserRouter>
 );

@@ -19,6 +19,7 @@ const getProducts = async () => {
         const querySnapshot = await getDocs(collection(firestore,"productos")) // nombre de la collection de firebase es productos
         
         //obtengo los productos, los id unidos a los campos del objeto data
+        console.log("ID del documento:", doc.id)
         const productos = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
