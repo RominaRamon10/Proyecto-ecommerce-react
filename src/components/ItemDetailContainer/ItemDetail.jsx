@@ -38,7 +38,7 @@ const ItemDetail = ({item}) => {
                 )
                 : (
                     // Cuando todavía no agregó el producto al carrito, muestra el ItemCount
-                    <ItemCount stock={item.stock} initial={1} onAdd={handleAdd} />
+                    <ItemCount stock={item.stock} initial={1} onAdd={handleAdd} itemId={item.id} />
                 )
             }
         </div>
