@@ -1,5 +1,5 @@
 import { firestore } from '../../utils/firebase';
-import { addDoc, doc, getDoc, getDocs, collection, query, where, serverTimestamp} from 'firebase/firestore'; //importo las funciones de firestore para crear documentos, colecciones ej: addDoc
+import { addDoc, doc, getDoc, getDocs, collection, query, where, serverTimestamp, updateDoc, increment} from 'firebase/firestore'; //importo las funciones de firestore para crear documentos, colecciones ej: addDoc
 
 //agregar productos
 const addProduct = async (data) => {
@@ -83,6 +83,25 @@ const getProductById = async (id) => {
 
 };
 
+const updateStock = async (cart) => {
+    try {
+        // Por cada producto del carrito, resta la cantidad del stock
+        const updates = cart.map(item => {
+            const productRef = doc(firestore, "productos", item.id)
+            return updateDoc(productRef, {
+                stock: increment(-item.quantity)  // resta la cantidad comprada
+            })
+        })
+
+        await Promise.all(updates)  // ejecuta todas las actualizaciones juntas
+        return { success: true }
+
+    } catch (error) {
+        return { success: false, error }
+    }
+}
+
+
 const createOrder = async (orderData) => {
     try {
         const orderRef = collection(firestore, "ordenes")
@@ -96,4 +115,5 @@ const createOrder = async (orderData) => {
     }
 }
 
-export const products = { getProducts, addProduct, getProductsByCategory, getProductById, createOrder };
+
+export const products = { getProducts, addProduct, getProductsByCategory, getProductById, createOrder, updateStock };
