@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useCart } from "../Context/CartContext"
 
-const ItemCount = ({stock, initial, onAdd}) => {
+const ItemCount = ({stock, initial = 1, onAdd, itemId}) => {
     const [count, setCount] = useState(initial);
+    const { getQuantityInCart } = useCart();
+
+    //Stock real = stock total - lo que esta en el carrito
+    const cantidadEnCarrito = getQuantityInCart(itemId)
+    const stockDisponible = stock - cantidadEnCarrito
 
     const sumar = () => {
-        if(count < stock){
+        if(count < stockDisponible){
             setCount(count + 1)
         }
     };
@@ -20,34 +26,20 @@ const ItemCount = ({stock, initial, onAdd}) => {
         }
     }
     //Si no hay stock, muestro msj
-    if (stock === 0) {
+    if (stock <= 0) {
         return <p style={{ color: "red" }}>Sin stock disponible</p>;
     }
-
-//     return (
-//         <div style={{ marginTop: "20px" }}>
-//             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-//                 <button onClick={restar}>-</button>
-//                 <span>{count}</span>
-//                 <button onClick={sumar}>+</button>
-//             </div>
-
-//             <button
-//                 style={{ marginTop: "10px" }}
-//                 onClick={() => onAdd(count)}
-//             >
-//                 Agregar al carrito
-//             </button>
-//         </div>
-//   );
 
     return (
         <div style={{ marginTop: "20px" }}>
 
-            {/* Mensaje cuando se llega al límite de stock */}
-            {count === stock && (
+            <p style={{ fontSize: "14px", color: "#666" }}>
+                Stock disponible: {stockDisponible} unidades
+            </p>
+
+            {count === stockDisponible && (
                 <p style={{ color: "orange", fontSize: "12px" }}>
-                    Máximo disponible: {stock} unidades
+                    Máximo disponible: {stockDisponible} unidades
                 </p>
             )}
 
@@ -67,8 +59,8 @@ const ItemCount = ({stock, initial, onAdd}) => {
                 {/* El botón + queda deshabilitado cuando se llega al stock máximo */}
                 <button 
                     onClick={sumar}
-                    disabled={count === stock}
-                    style={{ opacity: count === stock ? 0.5 : 1 }}
+                    disabled={count === stockDisponible}
+                    style={{ opacity: count === stockDisponible ? 0.5 : 1 }}
                 >
                     +
                 </button>
@@ -78,11 +70,7 @@ const ItemCount = ({stock, initial, onAdd}) => {
             {/* Validación: no puede agregar si count es 0 */}
             <button
                 style={{ marginTop: "10px" }}
-                onClick={() => {
-                    if (count > 0) {
-                        onAdd(count);
-                    }
-                }}
+                onClick={() => onAdd(count)}
                 disabled={count === 0}
             >
                 Agregar al carrito
