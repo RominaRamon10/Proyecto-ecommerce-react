@@ -27,6 +27,10 @@ const NavBar = () => {
       >
         Menú
       </button>
+      {/* // */}
+
+      {/* // */}
+
 
       <div className="offcanvas offcanvas-end" id="menuCategorias">
         <div className="offcanvas-header">
@@ -34,8 +38,16 @@ const NavBar = () => {
           <button className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
 
-        <div className="offcanvas-body">
-          <ul className="list-group">
+            {/* // */}
+            <div className="offcanvas-body">
+              <ul className="list-group">
+            <li className="list-group-item">
+                <NavLink to="/" onClick={closeOffcanvas}>
+                    Todos los productos
+                </NavLink>
+            </li>
+
+            {/* // */}
 
             <li className="list-group-item">
               <NavLink
@@ -90,6 +102,16 @@ const NavBar = () => {
                 Camperas
               </NavLink>
             </li>
+
+            {/* // */}
+              {/* ← NUEVO: link al carrito */}
+              <li className="list-group-item">
+                  <NavLink to="/cart" onClick={closeOffcanvas}>
+                      Carrito
+                  </NavLink>
+              </li>
+
+            {/* // */}
 
           </ul>
         </div>
