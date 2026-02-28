@@ -28,9 +28,9 @@ const ItemCount = ({stock, initial = 1, onAdd, itemId}) => {
     return (
         <div style={{ marginTop: "20px" }}>
 
-            <p style={{ fontSize: "14px", color: "#666" }}>
+            {/* <p style={{ fontSize: "14px", color: "#666" }}>
                 Stock disponible: {stockDisponible} unidades
-            </p>
+            </p> */}
 
             {count === stockDisponible && (
                 <p style={{ color: "orange", fontSize: "12px" }}>
