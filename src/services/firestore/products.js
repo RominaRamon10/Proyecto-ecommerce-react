@@ -19,7 +19,6 @@ const getProducts = async () => {
         const querySnapshot = await getDocs(collection(firestore,"productos")) // nombre de la collection de firebase es productos
         
         //obtengo los productos, los id unidos a los campos del objeto data
-        console.log("ID del documento:", doc.id)
         const productos = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
@@ -115,5 +114,62 @@ const createOrder = async (orderData) => {
     }
 }
 
+/////////////
+// services/firestore/products.js - agregás esta función
+const checkStock = async (cart) => {
+    try {
+        // Consulta el stock actual de cada producto del carrito
+        const checks = await Promise.all(
+            cart.map(async (item) => {
+                const resultado = await getProductById(item.id)
 
-export const products = { getProducts, addProduct, getProductsByCategory, getProductById, createOrder, updateStock };
+                if (!resultado.success) {
+                    return {
+                        ok: false,
+                        mensaje: `El producto "${item.title}" ya no está disponible`
+                    }
+                }
+
+                const stockActual = resultado.data.stock
+
+                if (stockActual < item.quantity) {
+                    return {
+                        ok: false,
+                        // Mensaje claro para el usuario
+                        mensaje: stockActual === 0
+                            ? `"${item.title}" se quedó sin stock`
+                            : `"${item.title}" solo tiene ${stockActual} unidad/es disponible/s y tenés ${item.quantity} en el carrito`
+                    }
+                }
+
+                return { ok: true }
+            })
+        )
+
+        // Filtra solo los productos con problemas de stock
+        const sinStock = checks.filter(c => !c.ok)
+
+        if (sinStock.length > 0) {
+            return {
+                success: false,
+                // Devuelve todos los mensajes juntos
+                errores: sinStock.map(c => c.mensaje)
+            }
+        }
+
+        return { success: true }
+
+    } catch {
+        return { success: false, errores: ["Error al verificar el stock"] }
+    }
+}
+
+export const products = {
+    getProducts,
+    addProduct,
+    getProductsByCategory,
+    getProductById,
+    createOrder,
+    updateStock,
+    checkStock
+}

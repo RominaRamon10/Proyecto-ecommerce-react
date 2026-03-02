@@ -48,6 +48,21 @@ const CheckoutForm = () => {
         setLoading(true)
         setError(null)
 
+
+        ///////
+        console.log("1. Verificando stock...")
+        // 1. Verificar stock antes de procesar la compra
+        const stockCheck = await services.firestore.products.checkStock(cart)
+        console.log("2. Resultado stock:", stockCheck)
+
+        if (!stockCheck.success) {
+            // Muestra todos los productos con problemas de stock
+            setError(stockCheck.errores)
+            setLoading(false)
+            return  // ← no continúa con la compra
+        }
+        // 2. Si hay stock, crear la orden
+        console.log("3. Creando orden...")
         const orden = {
             comprador: {
                 nombre: form.nombre,
@@ -65,18 +80,53 @@ const CheckoutForm = () => {
             total: getTotalPrice(),
             estado: "pendiente"
         }
-
-        const orderResponse = await services.firestore.products.createOrder(orden);
+        console.log("4. Orden armada:", orden)
+        const orderResponse = await services.firestore.products.createOrder(orden)
+        console.log("5. Respuesta de Firebase:", orderResponse)
 
         if (orderResponse.success) {
-            await services.firestore.products.updateStock(cart) //actualizo el stock en firebase
-            setOrderId(orderResponse.orderId)  //guardo el id para mostrárselo al usuario
-            clearCart()                   //vacío el carrito
+            console.log("6. Actualizando stock...")
+            // 3. Descontar stock en Firebase
+            await services.firestore.products.updateStock(cart)
+            console.log("7. Stock actualizado. OrderId:", orderResponse.orderId)
+            setOrderId(orderResponse.orderId)
+            clearCart()
         } else {
-            setError("Hubo un error al procesar la compra. Intentá de nuevo.")
+            setError(["Hubo un error al procesar la compra. Intentá de nuevo."])
         }
 
         setLoading(false)
+    
+        ///////////
+    //     const orden = {
+    //         comprador: {
+    //             nombre: form.nombre,
+    //             apellido: form.apellido,
+    //             email: form.email,
+    //             telefono: form.telefono
+    //         },
+    //         productos: cart.map(item => ({
+    //             id: item.id,
+    //             title: item.title,
+    //             price: item.price,
+    //             quantity: item.quantity,
+    //             subtotal: item.price * item.quantity
+    //         })),
+    //         total: getTotalPrice(),
+    //         estado: "pendiente"
+    //     }
+
+    //     const orderResponse = await services.firestore.products.createOrder(orden);
+
+    //     if (orderResponse.success) {
+    //         await services.firestore.products.updateStock(cart) //actualizo el stock en firebase
+    //         setOrderId(orderResponse.orderId)  //guardo el id para mostrárselo al usuario
+    //         clearCart()                   //vacío el carrito
+    //     } else {
+    //         setError("Hubo un error al procesar la compra. Intentá de nuevo.")
+    //     }
+
+    //     setLoading(false)
     }
 
     // Si la orden se generó, muestra el mensaje de éxito con el ID
@@ -165,10 +215,32 @@ const CheckoutForm = () => {
                     onChange={handleChange}
                     style={{ padding: "10px", borderRadius: "6px", border: "1px solid #ccc" }}
                 />
-
-                {/* Mensaje de error */}
+                
+                {/* Mensaje de error 
                 {error && (
                     <p style={{ color: "red", fontSize: "14px" }}>{error}</p>
+                )} */}
+
+                {/* Mensajes de error de stock */}
+                {error && (
+                    <div style={{
+                        backgroundColor: "#fff3f3",
+                        border: "1px solid red",
+                        borderRadius: "8px",
+                        padding: "12px",
+                        marginTop: "8px"
+                    }}>
+                        {/* error es un array, mostramos cada mensaje */}
+                        {error.map((msg, index) => (
+                            <p key={index} style={{
+                                color: "red",
+                                margin: "4px 0",
+                                fontSize: "14px"
+                            }}>
+                                ❌ {msg}
+                            </p>
+                        ))}
+                    </div>
                 )}
 
                 {/* Botón de confirmar */}
