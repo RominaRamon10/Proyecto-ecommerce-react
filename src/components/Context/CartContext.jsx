@@ -1,10 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect } from "react"
 
-// Creo el contexto
+//Creo el contexto
 export const CartContext = createContext();
 
-//Creo el hook personalizado para usarlo
 export const useCart = () => useContext(CartContext);
 
 //Creo el Provider que envuelve toda la app
@@ -19,13 +18,13 @@ export const CartProvider = ({ children }) => {
         }
     })
 
-    // Cada vez que el carrito cambia, lo guarda en localStorage
+    //Cada vez que el carrito cambia, lo guarda en localStorage
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart))
     }, [cart])  //se ejecuta cada vez que cart cambia
 
 
-    // Agregar producto al carrito
+    //Agregar producto al carrito
     const addItem = (item, quantity) => {
         const existeEnCarrito = cart.find(prod => prod.id === item.id)
 
@@ -42,22 +41,20 @@ export const CartProvider = ({ children }) => {
         }
     }
 
-    // Eliminar un producto del carrito
     const removeItem = (itemId) => {
         setCart(cart.filter(prod => prod.id !== itemId))
     }
 
-    // Vaciar todo el carrito
     const clearCart = () => {
         setCart([])
     }
 
-    // Total de unidades. Reduzco los valores de cantidades del carrito a un solo numero
+    //Total de unidades. Reduzco los valores de cantidades del carrito a un solo numero
     const getTotalQuantity = () => {
         return cart.reduce((total, prod) => total + prod.quantity, 0)
     }
 
-    // Total de precio
+    //Total de precio
     const getTotalPrice = () => {
         return cart.reduce((total, prod) => total + (prod.price * prod.quantity), 0)
     }

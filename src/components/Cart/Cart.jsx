@@ -5,7 +5,6 @@ import CartItem from "./CartItem"
 const Cart = () => {
     const { cart, clearCart, getTotalPrice, getTotalQuantity } = useCart()
 
-    // Renderizado condicional - carrito esta vacío
     if (cart.length === 0) {
         return (
             <div style={{ textAlign: "center", padding: "40px" }}>
@@ -17,7 +16,7 @@ const Cart = () => {
         )
     }
 
-    // Cuando el arrito tiene productos
+    //carrito con productos
     return (
         <div style={{ padding: "20px" }}>
             <h2>Tu carrito</h2>

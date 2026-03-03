@@ -84,15 +84,15 @@ const getProductById = async (id) => {
 
 const updateStock = async (cart) => {
     try {
-        // Por cada producto del carrito, resta la cantidad del stock
+        //por cada producto del carrito, resta la cantidad del stock
         const updates = cart.map(item => {
             const productRef = doc(firestore, "productos", item.id)
             return updateDoc(productRef, {
-                stock: increment(-item.quantity)  // resta la cantidad comprada
+                stock: increment(-item.quantity)  //resta la cantidad comprada
             })
         })
 
-        await Promise.all(updates)  // ejecuta todas las actualizaciones juntas
+        await Promise.all(updates)  //ejecuta todas las actualizaciones juntas
         return { success: true }
 
     } catch (error) {
@@ -114,11 +114,9 @@ const createOrder = async (orderData) => {
     }
 }
 
-/////////////
-// services/firestore/products.js - agregás esta función
 const checkStock = async (cart) => {
     try {
-        // Consulta el stock actual de cada producto del carrito
+        //Consulta el stock actual de cada producto del carrito
         const checks = await Promise.all(
             cart.map(async (item) => {
                 const resultado = await getProductById(item.id)
@@ -135,7 +133,6 @@ const checkStock = async (cart) => {
                 if (stockActual < item.quantity) {
                     return {
                         ok: false,
-                        // Mensaje claro para el usuario
                         mensaje: stockActual === 0
                             ? `"${item.title}" se quedó sin stock`
                             : `"${item.title}" solo tiene ${stockActual} unidad/es disponible/s y tenés ${item.quantity} en el carrito`
@@ -146,13 +143,13 @@ const checkStock = async (cart) => {
             })
         )
 
-        // Filtra solo los productos con problemas de stock
+        //Filtra solo los productos con problemas de stock
         const sinStock = checks.filter(c => !c.ok)
 
         if (sinStock.length > 0) {
             return {
                 success: false,
-                // Devuelve todos los mensajes juntos
+                //Devuelve todos los mensajes juntos
                 errores: sinStock.map(c => c.mensaje)
             }
         }
