@@ -1,7 +1,7 @@
 import NavBar from "./components/NavBar/NavBar";
 import ItemListContainer from "./components/ItemListContainer/ItemListContainer";
 import ItemDetailContainer from "./components/ItemDetailContainer/ItemDetailContainer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import Cart from './components/Cart/Cart';
 import CheckoutForm from "./components/Cart/CheckoutForm";
 
@@ -22,8 +22,7 @@ function App() {
                                     <Link to="/">
                                         <button>Volver al inicio</button>
                                     </Link>
-                                  </div>
-                          }/>
+                                  </div>}/>
       </Routes>
     </> 
   )
