@@ -4,42 +4,50 @@ import { Sidebar } from "primereact/sidebar"
 import { Button } from "primereact/button"
 import { Avatar } from "primereact/avatar"
 import { useState } from "react"
+import { useLocation } from "react-router-dom"
 import CartWidget from "./CartWidget"
 
 const NavBar = () => {
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
 
     const handleNavigate = (path) => {
         navigate(path)
         setVisible(false)
     }
 
+    //Función que devuelve estilo según si la ruta está activa
+    const esActivo = (path) => ({
+        fontWeight: location.pathname === path ? "bold" : "normal",
+        color: location.pathname === path ? "#4a90b8" : "inherit"
+    })
+
     const menuItems = [
         {
             label: "Categorías",
             icon: "pi pi-tag",
             items: [
-                { label: "Remeras",    icon: "pi pi-chevron-right", command: () => handleNavigate("/category/1") },
-                { label: "Pantalones", icon: "pi pi-chevron-right", command: () => handleNavigate("/category/2") },
-                { label: "Zapatillas", icon: "pi pi-chevron-right", command: () => handleNavigate("/category/3") },
-                { label: "Buzos",      icon: "pi pi-chevron-right", command: () => handleNavigate("/category/4") },
-                { label: "Vestidos",   icon: "pi pi-chevron-right", command: () => handleNavigate("/category/5") },
-                { label: "Camperas",   icon: "pi pi-chevron-right", command: () => handleNavigate("/category/6") }
+                { label: "Remeras",    icon: "pi pi-chevron-right", style: esActivo("/category/1"), command: () => handleNavigate("/category/1") },
+                { label: "Pantalones", icon: "pi pi-chevron-right", style: esActivo("/category/2"), command: () => handleNavigate("/category/2") },
+                { label: "Zapatillas", icon: "pi pi-chevron-right", style: esActivo("/category/3"), command: () => handleNavigate("/category/3") },
+                { label: "Buzos",      icon: "pi pi-chevron-right", style: esActivo("/category/4"), command: () => handleNavigate("/category/4") },
+                { label: "Vestidos",   icon: "pi pi-chevron-right", style: esActivo("/category/5"), command: () => handleNavigate("/category/5") },
+                { label: "Camperas",   icon: "pi pi-chevron-right", style: esActivo("/category/6"), command: () => handleNavigate("/category/6") }
             ]
         },
         {
             label: "Todos los productos",
             icon: "pi pi-list",
             items: [
-                { label: "Ver todos los productos", icon: "pi pi-chevron-right", command: () => handleNavigate("/") }
+                { label: "Ver todos los productos", icon: "pi pi-chevron-right", style: esActivo("/"), command: () => handleNavigate("/") }
             ]
         },
         {
             label: "Ir al carrito",
             icon: "pi pi-shopping-cart",
             items: [
-                { label: "Ver carrito", icon: "pi pi-chevron-right", command: () => handleNavigate("/cart") }
+                { label: "Ver carrito", icon: "pi pi-chevron-right", style: esActivo("/cart"), command: () => handleNavigate("/cart") }
             ]
         }
     ]

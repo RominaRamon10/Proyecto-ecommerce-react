@@ -31,7 +31,6 @@ const getProductsByCategory = (categoryId) => {
                         (prod) => String(prod.categoryId) === String(categoryId)
                     )
                 });
-                console.log("categorias productos:", productos.map(p => p.category));
             } else {
                 reject({success: false, message: "Error al obtener los productos"});
             }

@@ -15,7 +15,15 @@ function App() {
         <Route path="/item/:id" element={<ItemDetailContainer />} />
         <Route path="/cart" element={<Cart />} /> 
         <Route path="/checkout" element={<CheckoutForm />} />
-        <Route path="*"  element={<h2>404 - Página no encontrada</h2>}/>
+        <Route path="*"  element={
+                                  <div style={{ textAlign: "center", padding: "60px" }}>
+                                    <h2>404 - Página no encontrada</h2>
+                                    <p>La página que buscás no existe.</p>
+                                    <Link to="/">
+                                        <button>Volver al inicio</button>
+                                    </Link>
+                                  </div>
+                          }/>
       </Routes>
     </> 
   )
